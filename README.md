@@ -4,7 +4,7 @@
 Create account (free) and supply api key to WEATHER_API_KEY in .env file
 
 ## Pre-requisite
-- database: weather
+- create database: weather in mysql
 - composer install
 - php artisan migrate
 - run cities sql (databse > seeds > cities.sql) on database: weather  
