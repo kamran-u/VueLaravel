@@ -3,12 +3,11 @@
 ## Open weather api - https://openweathermap.org/guide
 Create account (free) and supply api key to WEATHER_API_KEY in .env file
 
-## MySql Databse
-Create database: weather
-run: 
+## Pre-requisite
+- database: weather
 - composer install
 - php artisan migrate
-
+- run cities sql (databse > seeds > cities.sql) on database: weather  
 
 
 ## Running the app
