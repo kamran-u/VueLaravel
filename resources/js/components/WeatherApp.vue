@@ -1,5 +1,10 @@
 <template>
     <div class="text-white mb-8">
+
+   <div v-if="loading" class="loader"></div>
+
+    <div v-else>
+        
         <div class="places-input text-gray-800">
             <input type="text" class="w-full px-2 py-2" v-model="queryString" @keyup="searchLocation" placeholder="Start by typing first 3 letters of any UK city...">
             <ul class="mb-8">
@@ -36,21 +41,24 @@
                     </div>      
                 </div>
             </div>
+        </div>
 
         </div>
+
+
     </div>
 </template>
 
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+
             this.fetchData();
         },
 
         data() {
             return{
-
+                loading: true,
                 queryString: '',
                 cities: [],
                 cityId: 2643123,
@@ -91,20 +99,22 @@
                 .then(response => response.json())
                 .then(data => {
 
-                    self.location.city = data.city.name;
-                    self.location.country = data.city.country;
-
-                    self.currentTemp.time = data.list[0].dt_txt;
-                    self.currentTemp.actual= Math.round(data.list[0].main.temp);
-                    self.currentTemp.feels= Math.round(data.list[0].main.feels_like);
-                    self.currentTemp.humidity= data.list[0].main.humidity;
-                    self.currentTemp.main= data.list[0].weather[0].main;
-                    self.currentTemp.summary= data.list[0].weather[0].description;
-                    self.currentTemp.icon= data.list[0].weather[0].icon;
+                    self.location.city          = data.city.name;
+                    self.location.country       = data.city.country;
+                    self.currentTemp.time       = data.list[0].dt_txt;
+                    self.currentTemp.actual     = Math.round(data.list[0].main.temp);
+                    self.currentTemp.feels      = Math.round(data.list[0].main.feels_like);
+                    self.currentTemp.humidity   = data.list[0].main.humidity;
+                    self.currentTemp.main       = data.list[0].weather[0].main;
+                    self.currentTemp.summary    = data.list[0].weather[0].description;
+                    self.currentTemp.icon       = data.list[0].weather[0].icon;
 
                     self.forecast = data.list;
-
                 })
+
+                .catch(error => { alert(error) })
+                .finally(() => (this.loading = false))
+
             },
 
             searchLocation(){
@@ -138,5 +148,19 @@ ul li {
   background-color: #f6f6f6;
   padding: 12px;
   cursor:pointer;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
